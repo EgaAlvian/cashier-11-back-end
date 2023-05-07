@@ -28,7 +28,40 @@ const getAllProduct = async (req, res, next) => {
     }
 }
 
+const updateProduct = async (req, res, next) => {
+    const body = req.body
+    const id = req.params.id
+
+    try {
+        await productService.updateProduct(id, body)
+        res.status(200).json({
+            message: 'success'
+        })
+    } catch (error) {
+        console.log(error)
+        res.status(400).json({
+            error: error.errors[0]?.message
+        })
+    }
+}
+
+const deleteProduct = async (req, res, next) => {
+    const id = req.params.id
+    try {
+        await productService.deleteProduct(id)
+        res.status(200).json({
+            message: "success"
+        })
+    } catch (error) {
+        res.status(400).json({
+            error: error.errors[0]?.message
+        })
+    }
+}
+
 module.exports = {
     createProduct,
     getAllProduct,
+    updateProduct,
+    deleteProduct
 }
